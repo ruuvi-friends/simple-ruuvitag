@@ -17,7 +17,9 @@ ruuvi_client = RuuviTagClient()
 ruuvi_client.listen(mac_addresses=macs)
 
 last_datas = ruuvi_client.get_current_datas()
+print(last_datas['CC:2C:6A:1E:59:3D'])
 ```
+
 However this means that if a sensor doesn't get updated in a while, the state will contain
 old data that might pollute your dataset. To clear the state use the flag `consume=True` 
 
