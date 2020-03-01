@@ -25,7 +25,7 @@ class RuuviTagClient(object):
             self.ble = DummyBle()
 
         elif adapter == 'bleson':
-            self.ble = BLEClient()
+            self.ble = BlesonClient()
         else:
             raise RuntimeError("Unsupported adapter %s" % adapter)
 
@@ -41,6 +41,9 @@ class RuuviTagClient(object):
         self.callback = callback
         self.ble.start(self.convert_data_and_callback)
 
+    def stop(self):
+        self.ble.stop() 
+
     def get_current_datas(self, consume=False):
         """
         Get current data gets the current state of the known tags.
@@ -50,13 +53,14 @@ class RuuviTagClient(object):
         return_data = self.latest_data.copy()
         if consume:
             self.latest_data = {}
-        
+
         return return_data
 
     def convert_data_and_callback(self, data):
         """
         This callback updates the current data, and calls the callback
         """
+        log.debug('Callback with data: %s', data)
 
         mac_address = data[0]
         raw_data = data[1]
