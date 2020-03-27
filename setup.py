@@ -33,7 +33,7 @@ setup(name='simple_ruuvitag',
           'bleson'
       ],
       license='MIT',
-      packages=['simple_ruuvitag'],
+      packages=['simple_ruuvitag', 'simple_ruuvitag.adaptors'],
       include_package_data=True,
       tests_require=[
           'nose',
