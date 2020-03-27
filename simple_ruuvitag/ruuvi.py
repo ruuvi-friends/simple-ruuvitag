@@ -36,7 +36,10 @@ class RuuviTagClient(object):
 
     def listen(self, callback=log.info, mac_addresses=None):
         if mac_addresses:
-            self.mac_addresses = mac_addresses
+            if isinstance(mac_addresses, list):
+                self.mac_addresses = [x.upper() for x in mac_addresses]
+            else:
+                self.mac_addresses = mac_addresses.upper()
 
         self.callback = callback
         self.ble.start(self.convert_data_and_callback)
@@ -62,10 +65,10 @@ class RuuviTagClient(object):
         """
         log.debug('Callback with data: %s', data)
 
-        mac_address = data[0]
+        mac_address = data[0].upper()
         raw_data = data[1]
 
-        if self.mac_addresses in self.mac_blacklist:
+        if mac_address in self.mac_blacklist:
             log.debug("Skipping blacklisted mac %s" % mac_address)
             return
 
