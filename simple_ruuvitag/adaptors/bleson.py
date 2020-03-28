@@ -13,9 +13,14 @@ class BlesonClient(object):
 
 
     def handle_callback(self, advertisment):
+        
+        if not advertisment.mfg_data:
+            # No data to return
+            return
+        
         processed_data = {
             "address": advertisment.address.address,
-            "raw_data": advertisment.mfg_data,
+            "raw_data": "FF" + advertisment.mfg_data.hex(),
             # these are documented but don't work
             # "tx_power": data.tx_power,
             # "rssi": data.rssi,
@@ -39,6 +44,9 @@ class BlesonClient(object):
            callback: Function that recieves the data from BLE
            device (string): BLE device (default 0)
         '''
+
+        # set callback
+        self.callback = callback
 
         if not bt_device:
             bt_device = 0
