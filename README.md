@@ -17,7 +17,7 @@ ruuvi_client = RuuviTagClient()
 ruuvi_client.listen(mac_addresses=macs)
 
 last_datas = ruuvi_client.get_current_datas()
-print(last_datas['CC:2C:6A:1E:59:3D'])
+print(last_datas)
 ```
 
 However this means that if a sensor doesn't get updated in a while, the state will contain
@@ -39,6 +39,25 @@ macs = ['CC:2C:6A:1E:59:3D', 'DD:2C:6A:1E:59:3D']
 ruuvi_client = RuuviTagClient()
 ruuvi_client.listen(callback=handle_callback, mac_addresses=macs)
 ```
+
+## Continous use:
+Although the bluetooth observer is running, data might stop coming through.
+For this we have `ruuvi_client.rescan()` witch will restart the observer, and data
+should start flowing again.
+```
+ruuvi_client.listen()
+time.sleep(5)
+last_datas = ruuvi_client.get_current_datas()
+print(last_datas)
+ruuvi_client.rescan()
+time.sleep(5)
+last_datas = ruuvi_client.get_current_datas()
+print(last_datas)
+time.sleep(5)
+```
+
+Right now there seems to be no way to ask the observer to continuously provide 
+all the advertisements - https://github.com/TheCellule/python-bleson/blob/master/bleson/core/roles.py
 
 ## Compatibility notes
 Right now this library should work with:
