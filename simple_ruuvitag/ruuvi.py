@@ -52,10 +52,10 @@ class RuuviTagClient(object):
         self.ble.start()
 
     def start(self):
-        self.start.start()
+        self.ble.start()
 
     def rescan(self):
-        self.ble.stop()
+        self.ble.stop() 
         self.ble.start()
 
     def stop(self):
