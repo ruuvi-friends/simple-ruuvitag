@@ -35,6 +35,10 @@ class RuuviTagClient(object):
         self.latest_data = {}
 
     def listen(self, callback=log.info, mac_addresses=None):
+        self.setup(callback=log.info, mac_addresses=None)
+        self.start()
+
+    def setup(self, callback=log.info, mac_addresses=None):
         if mac_addresses:
             if isinstance(mac_addresses, list):
                 self.mac_addresses = [x.upper() for x in mac_addresses]
@@ -42,13 +46,15 @@ class RuuviTagClient(object):
                 self.mac_addresses = mac_addresses.upper()
 
         self.callback = callback
+
+    def start(self):
         self.ble.start(self.convert_data_and_callback)
 
     def rescan(self):
         self.ble.rescan()
 
     def stop(self):
-        self.ble.stop() 
+        self.ble.stop()
 
     def get_current_datas(self, consume=False):
         """
