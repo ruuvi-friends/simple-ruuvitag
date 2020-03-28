@@ -44,6 +44,9 @@ class RuuviTagClient(object):
         self.callback = callback
         self.ble.start(self.convert_data_and_callback)
 
+    def rescan(self):
+        self.ble.rescan()
+
     def stop(self):
         self.ble.stop() 
 
@@ -65,8 +68,16 @@ class RuuviTagClient(object):
         """
         log.debug('Callback with data: %s', data)
 
-        mac_address = data[0].upper()
-        raw_data = data[1]
+        # {
+        #     "address": "MAC ADDRESS IN UPPERCASE"
+        #     "raw_data":  
+        #     "rssi": 
+        #     "tx_power"
+        #     "name": st
+        # }
+
+        mac_address = data["address"]
+        raw_data = data["raw_data"]
 
         if mac_address in self.mac_blacklist:
             log.debug("Skipping blacklisted mac %s" % mac_address)

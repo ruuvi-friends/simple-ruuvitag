@@ -9,6 +9,29 @@ class BlesonClient(object):
 
     def __init__(self):
         self.observer = None
+        self.callback = None
+
+
+    def handle_callback(self, advertisment):
+        processed_data = {
+            "address": advertisment.address.address,
+            "raw_data": advertisment.mfg_data,
+            # these are documented but don't work
+            # "tx_power": data.tx_power,
+            # "rssi": data.rssi,
+            # "name": data.name,
+        }
+        self.callback(processed_data)
+
+    def pause(self):
+        self.observer.stop()
+
+    def resume(self):
+        self.observer.start()
+
+    def rescan(self):
+        self.observer.stop()
+        self.observer.start()
 
     def start(self, callback, bt_device=''):
         '''
@@ -27,7 +50,7 @@ class BlesonClient(object):
 
         adapter = get_provider().get_adapter(int(bt_device))
         self.observer = Observer(adapter)
-        self.observer.on_advertising_data = callback
+        self.observer.on_advertising_data = self.handle_callback
         self.observer.start()
 
         return self.observer
