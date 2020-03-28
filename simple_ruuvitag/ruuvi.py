@@ -34,11 +34,15 @@ class RuuviTagClient(object):
         self.mac_addresses = None
         self.latest_data = {}
 
-    def listen(self, callback=log.info, mac_addresses=None):
-        self.setup(callback=log.info, mac_addresses=None)
+    # Use this if you want to start listening right away
+     # example: bt_device='hci0' (defaults to device 0)
+    def listen(self, callback=log.info, mac_addresses=None, bt_device=None):
+        self.setup(callback=log.info, mac_addresses=mac_addresses, bt_device=bt_device)
         self.start()
 
-    def setup(self, callback=log.info, mac_addresses=None):
+    # Use this if you want to setup but wait before you start scanning
+     # example: bt_device='hci0' (defaults to device 0)
+    def setup(self, callback=log.info, mac_addresses=None, bt_device=None):
         if mac_addresses:
             if isinstance(mac_addresses, list):
                 self.mac_addresses = [x.upper() for x in mac_addresses]
@@ -46,7 +50,7 @@ class RuuviTagClient(object):
                 self.mac_addresses = mac_addresses.upper()
 
         self.callback = callback
-        self.ble.setup(self.convert_data_and_callback)
+        self.ble.setup(self.convert_data_and_callback, bt_device=bt_device)
 
     def resume(self):
         self.ble.start()
