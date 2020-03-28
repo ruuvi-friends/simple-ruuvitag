@@ -13,11 +13,11 @@ class BlesonClient(object):
 
 
     def handle_callback(self, advertisment):
-        
+
         if not advertisment.mfg_data:
             # No data to return
             return
-        
+
         processed_data = {
             "address": advertisment.address.address,
             "raw_data": "FF" + advertisment.mfg_data.hex(),
@@ -55,7 +55,6 @@ class BlesonClient(object):
         adapter = get_provider().get_adapter(int(bt_device))
         self.observer = Observer(adapter)
         self.observer.on_advertising_data = self.handle_callback
-
         return self.observer
 
     def stop(self):
