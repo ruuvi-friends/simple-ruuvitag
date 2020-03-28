@@ -28,17 +28,13 @@ class BlesonClient(object):
         }
         self.callback(processed_data)
 
-    def pause(self):
-        self.observer.stop()
-
-    def resume(self):
+    def start(self):
+        if not self.observer:
+            log.info('Cannot start a client that has not been setup')
+            return
         self.observer.start()
 
-    def rescan(self):
-        self.observer.stop()
-        self.observer.start()
-
-    def start(self, callback, bt_device=''):
+    def setup(self, callback, bt_device=''):
         '''
         Attributes:
            callback: Function that recieves the data from BLE
@@ -59,7 +55,6 @@ class BlesonClient(object):
         adapter = get_provider().get_adapter(int(bt_device))
         self.observer = Observer(adapter)
         self.observer.on_advertising_data = self.handle_callback
-        self.observer.start()
 
         return self.observer
 

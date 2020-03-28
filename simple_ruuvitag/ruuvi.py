@@ -46,18 +46,22 @@ class RuuviTagClient(object):
                 self.mac_addresses = mac_addresses.upper()
 
         self.callback = callback
+        self.ble.setup(self.convert_data_and_callback)
 
-    # Alias
-    def scan(self):
-        self.start()
+    def resume(self):
+        self.ble.start()
 
     def start(self):
-        self.ble.start(self.convert_data_and_callback)
+        self.start.start()
 
     def rescan(self):
-        self.ble.rescan()
+        self.ble.stop()
+        self.ble.start()
 
     def stop(self):
+        self.ble.stop()
+
+    def pause(self):
         self.ble.stop()
 
     def get_current_datas(self, consume=False):
