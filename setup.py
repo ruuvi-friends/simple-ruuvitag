@@ -30,7 +30,7 @@ setup(name='simple_ruuvitag',
       ],
       keywords='RuuviTag BLE',
       install_requires=[
-          'bleson'
+          'bleson==0.0.10'
       ],
       license='MIT',
       packages=['simple_ruuvitag', 'simple_ruuvitag.adaptors'],

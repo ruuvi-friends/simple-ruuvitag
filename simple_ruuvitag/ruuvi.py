@@ -47,6 +47,10 @@ class RuuviTagClient(object):
 
         self.callback = callback
 
+    # Alias
+    def scan(self):
+        self.start()
+
     def start(self):
         self.ble.start(self.convert_data_and_callback)
 
