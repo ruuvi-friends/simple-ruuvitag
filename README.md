@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ruuvi-friends/simple-ruuvitag.svg?branch=master)](https://travis-ci.org/ruuvi-friends/simple-ruuvitag)
+
 # Simple Ruuvitag 🔧
 
 Simple Ruuvitag is a hard frok and ***HEAVY*** simplification of [ttu work](https://github.com/ttu) [ruuvitag-sensor](https://github.com/ttu/ruuvitag-sensor)
