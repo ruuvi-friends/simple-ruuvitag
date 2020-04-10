@@ -16,7 +16,7 @@ class BlesonClient(BluetoothAdaptor):
             # WARNING, Apple sucks, so it does not provide mac address
             # in the advertisement! Go tell them that they suck!
             # https://forums.developer.apple.com/thread/8442
-            "address": advertisement.address if advertisement.address else None,
+            "address": advertisement.address.address if advertisement.address != None else None,
             # Linux returns bytearray for mfg_data, but mac os returns _NSInlineData 
             # which casts to byte array. We need to explicitly cast it to use hex
             "raw_data": bytearray(advertisement.mfg_data).hex(),
