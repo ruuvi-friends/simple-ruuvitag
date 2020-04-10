@@ -14,7 +14,6 @@ class TestDataFormats(TestCase):
         ]
         for x, data_format, result in test_cases:
             encoded = DataFormats.convert_data(x)
-            print(encoded[1])
             self.assertEqual(data_format, encoded[0])
             self.assertEqual(result, encoded[1])
 

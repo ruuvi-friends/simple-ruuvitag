@@ -1,10 +1,8 @@
 import logging
-from logging import INFO, DEBUG, WARN, WARNING, ERROR
 from simple_ruuvitag.adaptors import BluetoothAdaptor
-from bleson import get_provider, Observer, set_level
+from bleson import get_provider, Observer
 
 log = logging.getLogger(__name__)
-# set_level(DEBUG)
 
 class BlesonClient(BluetoothAdaptor):
     '''Bluetooth LE communication with Bleson'''
