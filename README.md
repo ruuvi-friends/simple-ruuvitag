@@ -9,7 +9,10 @@ However, in order for python to have access to AF_SOCKET family, python needs to
 
 **⚠️ This is a recent library with no guarantee of stability. There might be breaking changes so use the release tags to pull specific version**
 
-**⚠️ This library is using an "edge" (not released) version of bleson.**
+# Installation
+```
+pip install simple-ruuvitag
+```
 
 # Usage
 
