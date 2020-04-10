@@ -10,16 +10,19 @@ class BlesonClient(BluetoothAdaptor):
     def handle_callback(self, advertisement):
 
         if not advertisement.mfg_data:
-            # No data to return
             return
 
         processed_data = {
-            "address": advertisement.address.address,
-            "raw_data": advertisement.mfg_data.hex(),
-            # these are documented but don't work
-            # "tx_power": advertisement.tx_power,
-            # "rssi": advertisement.rssi,
-            # "name": advertisement.name,
+            # WARNING, Apple sucks, so it does not provide mac address
+            # in the advertisement! Go tell them that they suck!
+            # https://forums.developer.apple.com/thread/8442
+            "address": advertisement.address if advertisement.address else None,
+            # Linux returns bytearray for mfg_data, but mac os returns _NSInlineData 
+            # which casts to byte array. We need to explicitly cast it to use hex
+            "raw_data": bytearray(advertisement.mfg_data).hex(),
+            "tx_power": advertisement.tx_pwr_lvl,
+            "rssi": advertisement.rssi,
+            "name": advertisement.name,
         }
 
         if processed_data["raw_data"][0:2] != 'FF':

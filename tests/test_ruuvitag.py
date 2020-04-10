@@ -42,6 +42,17 @@ class TestRuuviTag(TestCase):
                 "address": '11:2C:6A:1E:59:3D',
                 "raw_data": '043E2B020100014F884C33B8CB1F0201061BFF99040512FC5394C37C0004FFFC040CAC364200CDCBB8334C884FC4'
             },
+            # In version data format 5 mac is in payload. Mac os does not return mac on BLE advertisment 
+            # so we need to support that usecase of getting the mac address from the payload
+            {
+                "address": None,
+                "raw_data": '043E2B020100014F884C33B8CB1F0201061BFF99040512FC5394C37C0004FFFC040CAC364200CDCBB8334C884FC4'
+            },
+            # This one is thrown away because we don't have the mac, and mac is not in payload
+            {
+                "address": None,
+                "raw_data": '1902010415FF990403291A1ECE1E02DEF94202CA0B53BB',
+            },
         ]
 
         for data in datas:
@@ -56,7 +67,7 @@ class TestRuuviTag(TestCase):
 
         data = ble_client.get_current_datas()
 
-        self.assertEqual(3, len(data))
+        self.assertEqual(4, len(data))
         self.assertTrue('CC:2C:6A:1E:59:3D' in data)
         self.assertTrue('DD:2C:6A:1E:59:3D' in data)
         self.assertTrue(data['CC:2C:6A:1E:59:3D']['temperature'] == 24.0)
@@ -75,7 +86,7 @@ class TestRuuviTag(TestCase):
 
         data = ble_client.get_current_datas()
 
-        self.assertEqual(7, len(data))
+        self.assertEqual(8, len(data))
 
     @patch('simple_ruuvitag.adaptors.dummy.DummyBle.mock_datas', mock_callbacks)
     def test_get_current_datas_with_consume(self):
