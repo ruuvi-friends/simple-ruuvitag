@@ -1,25 +1,34 @@
+import logging
+from simple_ruuvitag.adaptors import BluetoothAdaptor
 
+log = logging.getLogger(__name__)
 
-class DummyBle(object):
+class DummyBle(BluetoothAdaptor):
     '''Bluetooth LE communication with Bleson'''
 
     def mock_datas(self, callback):
-        
-        callback(('DU:MM:YD:AT:A9:3D',
-             '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD'))
-        
-        callback(('NO:TS:UP:PO:RT:ED',
-             '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD'))
 
-    def __init__(self):
-        self.observer = None
+        callback(
+            {
+                "address": 'DU:MM:YD:AT:A9:3D',
+                "raw_data": '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD'
+            }
+        )
 
-    def start(self, callback, bt_device=''):
+        callback(
+            {
+                "address": 'NO:TS:UP:PO:RT:ED',
+                "raw_data": '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD'
+            }
+        )
+
+    def start(self):
 
         # Simulates the call to the callback
-        self.mock_datas(callback)
+        self.mock_datas(self.callback)
 
         return None
 
     def stop(self):
+        # dummy BLE cannot stop.
         pass

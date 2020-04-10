@@ -1,9 +1,14 @@
+[![Build Status](https://travis-ci.org/ruuvi-friends/simple-ruuvitag.svg?branch=master)](https://travis-ci.org/ruuvi-friends/simple-ruuvitag)
+
 # Simple Ruuvitag 🔧
 
 Simple Ruuvitag is a hard frok and ***HEAVY*** simplification of [ttu work](https://github.com/ttu) [ruuvitag-sensor](https://github.com/ttu/ruuvitag-sensor)
 
 It uses bleson python lib, which leverages Python 3 native support for Bluetooth sockets. 
 However, in order for python to have access to AF_SOCKET family, python needs to be compiled with lib-bluetooth or bluez.
+
+**⚠️ This is a recent library with no guarantee of stability. There might be breaking changes so use the release tags to pull specific version**
+
 
 # Usage
 
@@ -13,8 +18,8 @@ The client will keep the latest state of all sensors that have been polled.
 
 ```python
 macs = ['CC:2C:6A:1E:59:3D', 'DD:2C:6A:1E:59:3D']
-ruuvi_client = RuuviTagClient()
-ruuvi_client.listen(mac_addresses=macs)
+ruuvi_client = RuuviTagClient(mac_addresses=macs)
+ruuvi_client.start()
 
 last_datas = ruuvi_client.get_current_datas()
 print(last_datas)
@@ -36,8 +41,8 @@ def handle_callback(data):
     print("Data from %s: %s" % (data[0], data[1]))
 
 macs = ['CC:2C:6A:1E:59:3D', 'DD:2C:6A:1E:59:3D']
-ruuvi_client = RuuviTagClient()
-ruuvi_client.listen(callback=handle_callback, mac_addresses=macs)
+ruuvi_client = RuuviTagClient(callback=handle_callback, mac_addresses=macs)
+ruuvi_client.start()
 ```
 
 ## Continous use:
@@ -45,7 +50,7 @@ Although the bluetooth observer is running, data might stop coming through.
 For this we have `ruuvi_client.rescan()` witch will restart the observer, and data
 should start flowing again.
 ```
-ruuvi_client.listen()
+ruuvi_client.start()
 time.sleep(5)
 last_datas = ruuvi_client.get_current_datas()
 print(last_datas)
