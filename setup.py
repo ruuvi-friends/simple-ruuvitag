@@ -1,6 +1,6 @@
 from setuptools import setup
 
-import simple_ruuvitag
+__version__ = '0.0.3'
 
 try:
     import pypandoc
@@ -13,12 +13,12 @@ except ImportError:
 
 setup(
     name='simple_ruuvitag',
-    version=simple_ruuvitag.__version__,
+    version=__version__,
     description='Find RuuviTag sensor beacons and get data from selected sensors',
     long_description=readme,
     url='https://github.com/ruuvi-friends/simple-ruuvitag',
     download_url='https://github.com/ruuvi-friends/simple-ruuvitag/archive/v' +
-        simple_ruuvitag.__version__ + ".tar.gz",
+        __version__ + ".tar.gz",
     author='Sergio Isidoro',
     author_email='smaisidoro@gmail.com',
     platforms='any',
