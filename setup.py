@@ -1,15 +1,13 @@
 from setuptools import setup
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 try:
     import pypandoc
     readme = pypandoc.convert_file('README.md', 'rst')
     readme = readme.replace('\r', '')
 except ImportError:
-    import io
-    with io.open('README.md', encoding='utf-8') as f:
-        readme = f.read()
+    readme = "Please visit https://github.com/ruuvi-friends/simple-ruuvitag"
 
 setup(
     name='simple_ruuvitag',
