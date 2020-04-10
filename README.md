@@ -50,8 +50,12 @@ ruuvi_client.start()
 ```
 
 ## Continous use:
-Although the bluetooth observer is running, data might stop coming through.
-For this we have `ruuvi_client.rescan()` witch will restart the observer, and data
+Although the bluetooth observer is running, data might stop coming through due to
+duplication removal in bleson. This has been observed in the linux adapter, 
+and seems to have been fixed in https://github.com/TheCellule/python-bleson/issues/40
+
+This issue is fixed in newer versions of bleson, which are not yet published on pypi.
+For now we have `ruuvi_client.rescan()` witch will restart the observer, and data
 should start flowing again.
 ```
 ruuvi_client.start()
