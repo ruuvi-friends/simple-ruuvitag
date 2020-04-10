@@ -70,7 +70,7 @@ Right now this library should work with:
 * Python Docker official images (after this PR https://github.com/docker-library/python/pull/445)
 * Latest Ubuntu versions
 * Projects like HASS.io (after this PR https://github.com/home-assistant/docker-base/pull/53)
-* MAC OS from version 0.0.3
+* MAC OS from version 0.0.3 (Unfortunately only for Ruuvi data format 5. Update your tags)
 
 ## FAQ
 
