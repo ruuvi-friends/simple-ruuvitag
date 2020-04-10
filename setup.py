@@ -31,7 +31,8 @@ setup(
     ],
     keywords='RuuviTag BLE',
     install_requires=[
-        'bleson @ https://github.com/TheCellule/python-bleson/archive/RELEASE_0.0.13.zip#egg=bleson-0.0.13'
+        # 'bleson==0.0.10'
+        'bleson @ https://github.com/TheCellule/python-bleson/archive/RELEASE_0.0.16.zip#egg=bleson-0.0.13'
     ],
     license='MIT',
     packages=['simple_ruuvitag', 'simple_ruuvitag.adaptors'],

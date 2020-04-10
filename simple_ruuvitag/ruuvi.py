@@ -123,8 +123,15 @@ class RuuviTagClient(object):
             mac_address = decoded_data.get('mac', None)
 
             if not mac_address:
-                # Sorry, no luck.
+                log.warning(
+                    "DATA TYPE IS NOT SUPPORTED BY MAC OS. "
+                    "UPDATE YOUR TAG AND SWITCH MODE"
+                )
                 return
+            else:
+                # format it nicely
+                mac_address = mac_address.upper()
+                mac_address = ':'.join(mac_address[i:i+2] for i in range(0,12,2))
 
         self.latest_data[mac_address] = decoded_data
         self.latest_data[mac_address]['_updated_at'] = datetime.now()

@@ -21,7 +21,7 @@ def get_decoder(data_type):
         # https://github.com/ruuvi/ruuvi-sensor-protocols/blob/master/dataformat_04.md
         return UrlDecoder()
     if data_type == 4:
-        log.warning("DATA TYPE 4 IS OBSOLETE. UPDATE YOUR TAG")
+        log.warning("DATA TYPE 4 IS OBSOLETE. UPDATE YOUR TAG AND SWITCH MODE")
         # https://github.com/ruuvi/ruuvi-sensor-protocols/blob/master/dataformat_04.md
         return UrlDecoder()
     if data_type == 3:

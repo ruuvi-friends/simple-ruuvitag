@@ -8,6 +8,7 @@ class BlesonClient(BluetoothAdaptor):
     '''Bluetooth LE communication with Bleson'''
 
     def handle_callback(self, advertisement):
+
         if not advertisement.mfg_data:
             return
 
@@ -16,8 +17,8 @@ class BlesonClient(BluetoothAdaptor):
             # in the advertisement! Go tell them that they suck!
             # https://forums.developer.apple.com/thread/8442
             "address": advertisement.address if advertisement.address else None,
-            "raw_data": advertisement.raw_data.hex(),
-            "tx_power": advertisement.tx_power,
+            "raw_data": bytearray(advertisement.mfg_data).hex(),
+            "tx_power": advertisement.tx_pwr_lvl,
             "rssi": advertisement.rssi,
             "name": advertisement.name,
         }
