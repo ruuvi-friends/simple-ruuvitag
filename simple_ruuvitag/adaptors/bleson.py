@@ -1,48 +1,41 @@
-import time
 import logging
+from simple_ruuvitag.adaptors import BluetoothAdaptor
 from bleson import get_provider, Observer
 
 log = logging.getLogger(__name__)
 
-class BlesonClient(object):
+class BlesonClient(BluetoothAdaptor):
     '''Bluetooth LE communication with Bleson'''
 
-    def __init__(self):
-        self.observer = None
-        self.callback = None
+    def handle_callback(self, advertisement):
 
-
-    def handle_callback(self, advertisment):
-
-        if not advertisment.mfg_data:
+        if not advertisement.mfg_data:
             # No data to return
             return
 
         processed_data = {
-            "address": advertisment.address.address,
-            "raw_data": "FF" + advertisment.mfg_data.hex(),
+            "address": advertisement.address.address,
+            "raw_data": advertisement.mfg_data.hex(),
             # these are documented but don't work
-            # "tx_power": data.tx_power,
-            # "rssi": data.rssi,
-            # "name": data.name,
+            # "tx_power": advertisement.tx_power,
+            # "rssi": advertisement.rssi,
+            # "name": advertisement.name,
         }
+
+        if processed_data["raw_data"][0:2] != 'FF':
+            processed_data["raw_data"] = 'FF' + processed_data["raw_data"]
+
         self.callback(processed_data)
 
-    def start(self):
-        if not self.observer:
-            log.info('Cannot start a client that has not been setup')
-            return
-        self.observer.start()
-
-    def setup(self, callback, bt_device=''):
+    def __init__(self, callback, bt_device=''):
         '''
-        Attributes:
-           callback: Function that recieves the data from BLE
+        Arguments:
+           callback: Function that receives the data from BLE
            device (string): BLE device (default 0)
         '''
+        super().__init__(callback, bt_device)
 
-        # set callback
-        self.callback = callback
+        self.observer = None
 
         if not bt_device:
             bt_device = 0
@@ -55,7 +48,12 @@ class BlesonClient(object):
         adapter = get_provider().get_adapter(int(bt_device))
         self.observer = Observer(adapter)
         self.observer.on_advertising_data = self.handle_callback
-        return self.observer
+
+    def start(self):
+        if not self.observer:
+            log.info('Cannot start a client that has not been setup')
+            return
+        self.observer.start()
 
     def stop(self):
         self.observer.stop()
