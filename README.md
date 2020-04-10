@@ -9,6 +9,7 @@ However, in order for python to have access to AF_SOCKET family, python needs to
 
 **⚠️ This is a recent library with no guarantee of stability. There might be breaking changes so use the release tags to pull specific version**
 
+**⚠️ This library is using an "edge" (not released) version of bleson.**
 
 # Usage
 
@@ -69,10 +70,11 @@ Right now this library should work with:
 * Python Docker official images (after this PR https://github.com/docker-library/python/pull/445)
 * Latest Ubuntu versions
 * Projects like HASS.io (after this PR https://github.com/home-assistant/docker-base/pull/53)
+* MAC OS from version 0.0.3
 
 ## FAQ
 
 #### AttributeError: module 'socket' has no attribute 'AF_BLUETOOTH'
 
-1. Isntall bluez or lib-bluetooth depending on your platfomr
-2. rebuild your python eg: `sudo apt-get install --reinstall python3`
+1. Install bluez or lib-bluetooth depending on your platform
+2. Rebuild python.

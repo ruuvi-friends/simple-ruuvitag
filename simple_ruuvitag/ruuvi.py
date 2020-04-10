@@ -85,28 +85,48 @@ class RuuviTagClient(object):
         #     "raw_data": xxxx
         # }
 
-        mac_address = data["address"]
         raw_data = data["raw_data"]
+        mac_address = data["address"]
 
-        if mac_address in self.mac_blacklist:
-            log.debug("Skipping blacklisted mac %s", mac_address)
+        if not raw_data:
             return
 
-        if self.mac_addresses and mac_address not in self.mac_addresses:
-            log.debug("Skipping non selected mac %s", mac_address)
+        if mac_address:
+            if mac_address in self.mac_blacklist:
+                log.debug("Skipping blacklisted mac %s", mac_address)
+                return
+            if self.mac_addresses and mac_address not in self.mac_addresses:
+                log.debug("Skipping non listed mac address %s", mac_address)
+                return
+
+        (data_format, converted_raw_data) = DataFormats.convert_data(raw_data)
+
+        if not converted_raw_data:
+            if mac_address:
+                self.mac_blacklist.append(mac_address)
             return
 
-        (data_format, data) = DataFormats.convert_data(raw_data)
-        print (data_format)
-        if data is not None:
-            state = get_decoder(data_format).decode_data(data)
-            if state is not None:
-                self.latest_data[mac_address] = state
-                self.latest_data[mac_address]['_updated_at'] = datetime.now()
-                self.callback(mac_address, state)
-            else:
-                log.error(
-                    'Null decoded data. %s - raw: %s', mac_address, raw_data
-                )
-        else:
-            self.mac_blacklist.append(mac_address)
+        decoded_data = get_decoder(data_format).decode_data(converted_raw_data)
+
+        if not decoded_data:
+            if mac_address:
+                self.mac_blacklist.append(mac_address)
+            return
+
+        if not mac_address:
+            log.debug("Attempting to fallback to payload mac addr.")
+            # Some adaptors and OS don't provide the mac addresses 
+            # (*cough* shitty apple *cough*), so we need to try and 
+            # get it from Ruuvi payload. However that is only possible 
+            # in V5 data format. All others will be discarded :(
+
+            mac_address = decoded_data.get('mac', None)
+
+            if not mac_address:
+                # Sorry, no luck.
+                return
+
+        self.latest_data[mac_address] = decoded_data
+        self.latest_data[mac_address]['_updated_at'] = datetime.now()
+        self.callback(mac_address, decoded_data)
+
