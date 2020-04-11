@@ -19,7 +19,11 @@ class TestRuuviTag(TestCase):
                 "raw_data": 'some other device',
             },
             {
-                "address": 'CC:2C:6A:1E:59:3D',
+                "address": 'bb:2c:6a:1e:59:3e',
+                "raw_data": 'some other device',
+            },
+            {
+                "address": 'cc:2c:6a:1e:59:3d',
                 "raw_data": '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD',
             },
             {
@@ -105,3 +109,15 @@ class TestRuuviTag(TestCase):
         ble_client.start()
 
         self.assertTrue('BB:2C:6A:1E:59:3D' in ble_client.mac_blacklist)
+        self.assertTrue('BB:2C:6A:1E:59:3E' in ble_client.mac_blacklist)
+        
+    @patch('simple_ruuvitag.adaptors.dummy.DummyBle.mock_datas', mock_callbacks)
+    def test_case_insensitive_macs(self):
+        macs = ['cc:2c:6a:1e:59:3d']
+
+        ble_client = RuuviTagClient(mac_addresses=macs, adapter='dummy')
+        ble_client.start()
+
+        data = ble_client.get_current_datas()
+
+        self.assertTrue('CC:2C:6A:1E:59:3D' in data)

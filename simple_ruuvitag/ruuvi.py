@@ -92,6 +92,8 @@ class RuuviTagClient(object):
             return
 
         if mac_address:
+            # Standardise mac address to upper case
+            mac_address = mac_address.upper()
             if mac_address in self.mac_blacklist:
                 log.debug("Skipping blacklisted mac %s", mac_address)
                 return
