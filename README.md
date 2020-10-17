@@ -51,12 +51,11 @@ ruuvi_client.start()
 
 ## Continous use:
 Although the bluetooth observer is running, data might stop coming through due to
-duplication removal in bleson. This has been observed in the linux adapter, 
-and seems to have been fixed in https://github.com/TheCellule/python-bleson/issues/40
-but it's not yet published on pypi.
+duplication removal in bleson. This issue is fixed in https://github.com/TheCellule/python-bleson/issues/40
+and in simple-ruuvitag `v0.0.6`
 
-For now we have `ruuvi_client.rescan()` witch will restart the observer, and data
-should start flowing again.
+If you still find this issue, simple-ruuvitag has a method for to re-scan:`ruuvi_client.rescan()` 
+which will restart the observer, and data should start flowing again.
 ```
 ruuvi_client.start()
 time.sleep(5)

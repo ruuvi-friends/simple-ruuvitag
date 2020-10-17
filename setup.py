@@ -1,6 +1,6 @@
 from setuptools import setup
 
-__version__ = '0.0.4'
+__version__ = '0.0.6'
 
 try:
     import pypandoc
@@ -29,8 +29,7 @@ setup(
     ],
     keywords='RuuviTag BLE',
     install_requires=[
-        'bleson==0.0.10'
-        # 'bleson @ https://github.com/TheCellule/python-bleson/archive/RELEASE_0.0.16.zip#egg=bleson-0.0.13'
+        'bleson==0.1.6'
     ],
     license='MIT',
     packages=['simple_ruuvitag', 'simple_ruuvitag.adaptors'],
