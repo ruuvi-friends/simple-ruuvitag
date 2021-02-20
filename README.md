@@ -21,6 +21,7 @@ Simplest usage is using ruuvi_client internal state.
 The client will keep the latest state of all sensors that have been polled.
 
 ```python
+from simple_ruuvitag import RuuviTagClient
 macs = ['CC:2C:6A:1E:59:3D', 'DD:2C:6A:1E:59:3D']
 ruuvi_client = RuuviTagClient(mac_addresses=macs)
 ruuvi_client.start()
@@ -37,12 +38,12 @@ last_datas = ruuvi_client.get_current_datas(consume=True)
 ```
 
 ## Callback usage
-
 You cal also use a callback to handle data as it is recieved by the library.
 Just pass a `callback` parameter to the listen method
 ```python
-def handle_callback(data):
-    print("Data from %s: %s" % (data[0], data[1]))
+from simple_ruuvitag import RuuviTagClient
+def handle_callback(mac_address, data):
+	print(f"Data from {mac_address}: {data}")
 
 macs = ['CC:2C:6A:1E:59:3D', 'DD:2C:6A:1E:59:3D']
 ruuvi_client = RuuviTagClient(callback=handle_callback, mac_addresses=macs)
