@@ -52,6 +52,7 @@ class TestDecoder(TestCase):
         self.assertEqual(data['acceleration_x'], -1000)
         self.assertNotEqual(data['acceleration_y'], 0)
         self.assertNotEqual(data['acceleration_z'], 0)
+        self.assertEqual(data['rssi'], -69) #nice!
 
         data = decoder.decode_data('03291A1ECE1EFC18F94202CA0B53BB')
         self.assertEqual(data['temperature'], 26.3)
@@ -62,6 +63,7 @@ class TestDecoder(TestCase):
         self.assertEqual(data['acceleration_x'], -1000)
         self.assertNotEqual(data['acceleration_y'], 0)
         self.assertNotEqual(data['acceleration_z'], 0)
+        self.assertEqual(data['rssi'], -69) #nice!
 
     def test_df3decode_is_valid_notNone(self):
         test_cases = [
@@ -103,7 +105,8 @@ class TestDecoder(TestCase):
         self.assertEqual(data['acceleration_x'], 1000)
         self.assertEqual(data['acceleration_y'], 1000)
         self.assertEqual(data['acceleration_z'], 1000)
-        self.assertNotEqual(data['acceleration'], 0)
+        self.assertNotEqual(data['acceleration'], 0),
+        self.assertEqual(data['rssi'], -69)
 
     def test_df3decode_is_valid_min_values(self):
         decoder = Df3Decoder()
@@ -132,6 +135,7 @@ class TestDecoder(TestCase):
         self.assertEqual(data['acceleration_y'], -1000)
         self.assertEqual(data['acceleration_z'], -1000)
         self.assertNotEqual(data['acceleration'], 0)
+        self.assertEqual(data['rssi'], -69) #nice!
 
     def test_df5decode_is_valid(self):
         decoder = Df5Decoder()
@@ -171,3 +175,4 @@ class TestDecoder(TestCase):
         self.assertEqual(data['movement_counter'], 66)
         self.assertEqual(data['measurement_sequence_number'], 205)
         self.assertEqual(data['mac'], 'cbb8334c884f')
+        self.assertEqual(data['rssi'], 79)
