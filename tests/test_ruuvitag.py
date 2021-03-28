@@ -13,49 +13,82 @@ class TestRuuviTag(TestCase):
             {
                 "address": 'AA:2C:6A:1E:59:3D',
                 "raw_data": '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": 'BB:2C:6A:1E:59:3D',
                 "raw_data": 'some other device',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": 'bb:2c:6a:1e:59:3e',
                 "raw_data": 'some other device',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": 'cc:2c:6a:1e:59:3d',
                 "raw_data": '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": 'DD:2C:6A:1E:59:3D',
                 "raw_data": '1E0201060303AAFE1616AAFE10EE037275752E76692F23416A7759414D4663CD',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": 'EE:2C:6A:1E:59:3D',
                 "raw_data": '1F0201060303AAFE1716AAFE10F9037275752E76692F23416A5558314D417730C3',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": 'FF:2C:6A:1E:59:3D',
                 "raw_data": '1902010415FF990403291A1ECE1E02DEF94202CA0B5300000000BB',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": '00:2C:6A:1E:59:3D',
                 "raw_data": '1902010415FF990403291A1ECE1E02DEF94202CA0B53BB',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             {
                 "address": '11:2C:6A:1E:59:3D',
-                "raw_data": '043E2B020100014F884C33B8CB1F0201061BFF99040512FC5394C37C0004FFFC040CAC364200CDCBB8334C884FC4'
+                "raw_data": '043E2B020100014F884C33B8CB1F0201061BFF99040512FC5394C37C0004FFFC040CAC364200CDCBB8334C884FC4',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             # In version data format 5 mac is in payload. Mac os does not return mac on BLE advertisment 
             # so we need to support that usecase of getting the mac address from the payload
             {
                 "address": None,
-                "raw_data": '043E2B020100014F884C33B8CB1F0201061BFF99040512FC5394C37C0004FFFC040CAC364200CDCBB8334C884FC4'
+                "raw_data": '043E2B020100014F884C33B8CB1F0201061BFF99040512FC5394C37C0004FFFC040CAC364200CDCBB8334C884FC4',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
             # This one is thrown away because we don't have the mac, and mac is not in payload
             {
                 "address": None,
                 "raw_data": '1902010415FF990403291A1ECE1E02DEF94202CA0B53BB',
+                "tx_power": 0,
+                "rssi": -99,
+                "name": 'bleson'
             },
         ]
 
@@ -77,6 +110,7 @@ class TestRuuviTag(TestCase):
         self.assertTrue(data['CC:2C:6A:1E:59:3D']['temperature'] == 24.0)
         self.assertTrue(data['EE:2C:6A:1E:59:3D']['temperature'] == 25.12)
         self.assertTrue(data['EE:2C:6A:1E:59:3D']['identifier'] == '0')
+        self.assertEqual(data['EE:2C:6A:1E:59:3D']['rssi'], -99)
 
         data = ble_client.get_current_datas(consume=True)
 

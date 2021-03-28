@@ -88,6 +88,11 @@ class RuuviTagClient(object):
         raw_data = data["raw_data"]
         mac_address = data["address"]
 
+        adapter_info = {
+          "tx_power": data["tx_power"],
+          "rssi": data["rssi"]
+        }
+
         if not raw_data:
             return
 
@@ -134,6 +139,9 @@ class RuuviTagClient(object):
                 # format it nicely
                 mac_address = mac_address.upper()
                 mac_address = ':'.join(mac_address[i:i+2] for i in range(0,12,2))
+
+        # Adds RSSI and TX Power
+        decoded_data.update(adapter_info)
 
         self.latest_data[mac_address] = decoded_data
         self.latest_data[mac_address]['_updated_at'] = datetime.now()
