@@ -69,6 +69,20 @@ print(last_datas)
 time.sleep(5)
 ```
 
+## Change monitored devices on the fly
+```python
+from simple_ruuvitag import RuuviTagClient
+def handle_callback(mac_address, data):
+	print(f"Data from {mac_address}: {data}")
+
+macs = ['CC:2C:6A:1E:59:3D', 'DD:2C:6A:1E:59:3D']
+ruuvi_client = RuuviTagClient(callback=handle_callback, mac_addresses=macs)
+ruuvi_client.start()
+
+new_macs = ['CC:2C:6A:1E:59:3D']
+ruuvi_client.set_mac_addresses(new_macs)
+```
+
 ## Compatibility notes
 Right now this library should work with:
 * Python Docker official images (after this PR https://github.com/docker-library/python/pull/445)
