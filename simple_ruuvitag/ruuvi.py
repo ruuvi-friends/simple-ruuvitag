@@ -36,10 +36,7 @@ class RuuviTagClient(object):
 
         self.latest_data = {}
         if mac_addresses:
-            if isinstance(mac_addresses, list):
-                self.mac_addresses = [x.upper() for x in mac_addresses]
-            else:
-                self.mac_addresses = mac_addresses.upper()
+            self.set_mac_addresses(mac_addresses)
 
         self.callback = callback
         self.ble = self.ble_adaptor(
@@ -61,6 +58,12 @@ class RuuviTagClient(object):
 
     def pause(self):
         self.ble.stop()
+
+    def set_mac_addresses(self, mac_addresses):
+        if isinstance(mac_addresses, list):
+            self.mac_addresses = [x.upper() for x in mac_addresses]
+        else:
+            self.mac_addresses = [mac_addresses.upper()]
 
     def get_current_datas(self, consume=False):
         """
