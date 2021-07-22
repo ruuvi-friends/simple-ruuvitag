@@ -3,12 +3,13 @@ from datetime import datetime
 import logging
 
 from simple_ruuvitag.data_formats import DataFormats
-from simple_ruuvitag.decoder import get_decoder
+from ruuvi_decoders import get_decoder
 
 from simple_ruuvitag.adaptors.dummy import DummyBle
 from simple_ruuvitag.adaptors.bleson import BlesonClient
 
 log = logging.getLogger(__name__)
+
 
 class RuuviTagClient(object):
     """
@@ -149,4 +150,3 @@ class RuuviTagClient(object):
         self.latest_data[mac_address] = decoded_data
         self.latest_data[mac_address]['_updated_at'] = datetime.now()
         self.callback(mac_address, decoded_data)
-
