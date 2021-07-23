@@ -29,7 +29,8 @@ setup(
     ],
     keywords='RuuviTag BLE',
     install_requires=[
-        'bleson==0.1.8'
+        'bleson==0.1.8',
+        'ruuvi_decoders==0.2.0'
     ],
     license='MIT',
     packages=['simple_ruuvitag', 'simple_ruuvitag.adaptors'],
