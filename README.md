@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ruuvi-friends/simple-ruuvitag.svg?branch=master)](https://travis-ci.org/ruuvi-friends/simple-ruuvitag)
+[![PyPI version](https://badge.fury.io/py/simple-ruuvitag.svg)](https://badge.fury.io/py/simple-ruuvitag)
 
 # Simple Ruuvitag 🔧
 
